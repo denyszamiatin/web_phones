@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PhoneBook</title>
+</head>
+<body>
+<h1>Phone Book</h1>
+<ul>
+    {% for contact in contacts %}
+    <li><a href="/contact/{{contact.id}}">{{contact.name}} ({{contact.email}})</a></li>
+    {% endfor %}
+</ul>
+</body>
+</html>
