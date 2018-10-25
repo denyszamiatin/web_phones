@@ -1,12 +1,15 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
+from django.core.paginator import Paginator
 from .models import Contact, PhoneNumber
 from .forms import ContactForm, PhoneNumberForm
 
 
 def index(request):
-    contacts = Contact.objects.select_related().all()
-    return render(request, 'index.html', {'contacts': contacts})
+    contacts = Contact.objects.order_by('pk').all()
+    p = Paginator(contacts, 2)
+    page = request.GET.get('p', 1)
+    return render(request, 'index.html', {'contacts': p.page(page), 'pages': p})
 
 
 def info(request, contact_id):

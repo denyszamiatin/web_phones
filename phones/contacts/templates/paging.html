@@ -1,0 +1,7 @@
+<p>
+    {% if contacts.has_previous %}<a href="/?p=1">&lt;&lt;</a>{% endif%}
+    {% if contacts.has_previous %}<a href="/?p={{contacts.previous_page_number}}">&lt;</a>{% endif%}
+    {{contacts}}
+    {% if contacts.has_next %}<a href="/?p={{contacts.next_page_number}}">&gt;</a>{% endif%}
+    {% if contacts.has_next %}<a href="/?p={{pages.num_pages}}">&gt;&gt;</a>{% endif%}
+</p>
