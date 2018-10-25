@@ -7,9 +7,10 @@
 <body>
 <h1>Phone Book</h1>
 {% block content %}
+<p><a href="/contact/add">Add contact</a></p>
 <ul>
     {% for contact in contacts %}
-    <li><a href="/contact/{{contact.id}}">{{contact.name}} ({{contact.email}})</a></li>
+    <li><a href="/contact/info/{{contact.id}}">{{contact.name}} ({{contact.email}})</a></li>
     {% endfor %}
 </ul>
 {% endblock %}
