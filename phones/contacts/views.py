@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from .models import Contact, PhoneNumber
-from .forms import ContactForm
+from .forms import ContactForm, PhoneNumberForm
 
 
 def index(request):
@@ -25,3 +25,16 @@ def add_contact(request):
             messages.info(request, 'Contact has been added successfully')
             return redirect('/')
     return render(request, 'add.html', {'form': form})
+
+
+def add_number(request, contact_id):
+    form = PhoneNumberForm()
+    if request.method == 'POST':
+        form = PhoneNumberForm(request.POST)
+        if form.is_valid():
+            number = form.save(commit=False)
+            number.contact = get_object_or_404(Contact, pk=contact_id)
+            number.save()
+            messages.info(request, 'Phone number has been added successfully')
+            return redirect('/contact/info/{}'.format(contact_id))
+    return render(request, 'add_number.html', {'form': form})

@@ -1,6 +1,6 @@
 {% extends 'index.html' %}
 {% block content %}
-
+<p><a href="/contact/add_number/{{contact.pk}}">Add phone number</a></p>
 <p>{{contact.name}}</p>
 <ul>
     {% for number in numbers %}
