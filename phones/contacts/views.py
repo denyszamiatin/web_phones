@@ -1,3 +1,5 @@
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.core.paginator import Paginator
@@ -6,8 +8,9 @@ from .models import Contact, PhoneNumber
 from .forms import ContactForm, PhoneNumberForm, LoginForm
 
 
+@login_required(login_url='/')
 def index(request):
-    contacts = Contact.objects.order_by('pk').all()
+    contacts = Contact.objects.filter(user=request.user).order_by('pk').all()
     p = Paginator(contacts, 2)
     page = request.GET.get('p', 1)
     return render(request, 'index.html', {'contacts': p.page(page), 'pages': p})
@@ -50,4 +53,15 @@ def add_number(request, contact_id):
 
 def log_in(request):
     form = LoginForm()
+    if request.method == 'POST':
+        name = request.POST.get('name', '')
+        pwd = request.POST.get('pwd', '')
+        user = authenticate(username=name, password=pwd)
+        if user is not None:
+            login(request, user)
+            return redirect('/contact')
     return render(request, 'login.html', {'form': form})
+
+def log_out(request):
+    logout(request)
+    return redirect('/')
