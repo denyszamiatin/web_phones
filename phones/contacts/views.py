@@ -1,8 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.core.paginator import Paginator
+
 from .models import Contact, PhoneNumber
-from .forms import ContactForm, PhoneNumberForm
+from .forms import ContactForm, PhoneNumberForm, LoginForm
 
 
 def index(request):
@@ -23,10 +24,14 @@ def add_contact(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
-            contact = Contact(name=form.cleaned_data['name'], email=form.cleaned_data['email'])
+            contact = Contact(
+                name=form.cleaned_data['name'],
+                email=form.cleaned_data['email'],
+                user=request.user
+            )
             contact.save()
             messages.info(request, 'Contact has been added successfully')
-            return redirect('/')
+            return redirect('/contact')
     return render(request, 'add.html', {'form': form})
 
 
@@ -41,3 +46,8 @@ def add_number(request, contact_id):
             messages.info(request, 'Phone number has been added successfully')
             return redirect('/contact/info/{}'.format(contact_id))
     return render(request, 'add_number.html', {'form': form})
+
+
+def log_in(request):
+    form = LoginForm()
+    return render(request, 'login.html', {'form': form})

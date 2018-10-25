@@ -11,3 +11,8 @@ class PhoneNumberForm(forms.ModelForm):
     class Meta:
         model = PhoneNumber
         fields = ['number']
+
+
+class LoginForm(forms.Form):
+    name = forms.CharField(max_length=100)
+    pwd = forms.CharField(widget=forms.PasswordInput, max_length=100)
