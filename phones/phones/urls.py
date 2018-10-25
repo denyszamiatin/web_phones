@@ -21,5 +21,5 @@ from contacts.views import index, info
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index),
-    path(r'contact/<int:c_id>', info),
+    path('contact/<int:contact_id>', info),
 ]
