@@ -1,4 +1,5 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
 from .models import Contact, PhoneNumber
 from .forms import ContactForm
 
@@ -21,4 +22,6 @@ def add_contact(request):
         if form.is_valid():
             contact = Contact(name=form.cleaned_data['name'], email=form.cleaned_data['email'])
             contact.save()
+            messages.info(request, 'Contact has been added successfully')
+            return redirect('/')
     return render(request, 'add.html', {'form': form})
