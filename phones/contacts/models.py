@@ -1,9 +1,11 @@
 from django.db import models
+from django.contrib.auth import models as auth_models
 
 
 class Contact(models.Model):
     name = models.CharField("Ім'я", max_length=100)
     email = models.EmailField("E-mail")
+    user = models.ForeignKey(auth_models.User, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'Контакт'
